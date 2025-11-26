@@ -1,200 +1,152 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pulire l’Auto — Professional Car Detailing</title>
-  <meta name="description" content="Pulire l’Auto — Professional mobile car detailing in Hermiston, OR. Book an appointment online." />
-  <style>
-    :root{
-      --bg:#0b0e12;
-      --ink:#e6e2dc;
-      --tint:#9aa4b2;
-      --accent:#c7b27a;
-      --card:#12161d;
-      --stroke:#232a34;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; color:var(--ink);background:var(--bg);}
-    a{color:var(--accent);text-decoration:none}
-    .container{max-width:1100px;margin-inline:auto;padding:28px}
-    header{position:sticky;top:0;background:linear-gradient(to bottom, rgba(11,14,18,.95), rgba(11,14,18,.7));backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--stroke);z-index:20}
-    header .bar{display:flex;align-items:center;justify-content:space-between;gap:16px}
-    .brand{display:flex;align-items:center;gap:14px}
-    .emblem{height:40px;width:40px;border:1px solid var(--accent);border-radius:12px;display:grid;place-items:center;font-weight:700;letter-spacing:1px}
-    .title{font-weight:700;letter-spacing:.6px}
-    nav a{padding:10px 14px;border-radius:10px;color:var(--ink)}
-    nav a:hover{background:rgba(255,255,255,.05)}
-    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;border:1px solid var(--accent);color:var(--ink)}
-    .btn.solid{background:var(--accent);color:#111;border-color:var(--accent);font-weight:700}
-    .hero{padding:90px 28px 64px;background:
-      radial-gradient(1200px 500px at 80% -20%, rgba(199,178,122,.18), transparent 60%),
-      linear-gradient(180deg, rgba(255,255,255,.04), transparent 40%);
-      border-bottom:1px solid var(--stroke)}
-    .hero h1{font-size:clamp(36px,5vw,56px);line-height:1.05;margin:0 0 14px}
-    .hero p{color:var(--tint);max-width:720px;margin:0 0 26px}
-    .pill{display:inline-flex;gap:8px;align-items:center;border:1px dashed var(--accent);color:var(--accent);padding:8px 12px;border-radius:999px;font-size:14px}
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
-    .card{grid-column:span 12;background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:22px}
-    @media(min-width:900px){.span-4{grid-column:span 4}.span-6{grid-column:span 6}.span-8{grid-column:span 8}}
-    .card h3{margin:0 0 6px}
-    .muted{color:var(--tint)}
-    .price{font-size:28px;font-weight:800}
-    .badge{display:inline-block;padding:4px 10px;border:1px solid var(--accent);border-radius:999px;color:var(--accent);font-size:12px}
-    form{display:grid;gap:14px}
-    label{font-size:14px;color:var(--tint)}
-    input,select,textarea{background:#0f141a;border:1px solid var(--stroke);border-radius:12px;color:var(--ink);padding:12px 14px;width:100%}
-    textarea{min-height:100px;resize:vertical}
-    .two{display:grid;gap:14px}
-    @media(min-width:700px){.two{grid-template-columns:1fr 1fr}}
-    .note{font-size:12px;color:var(--tint)}
-    .success{display:none;margin-top:10px;color:#8fd694}
-    footer{border-top:1px solid var(--stroke);margin-top:40px;padding:24px 0;color:var(--tint)}
-  </style>
+<meta charset="UTF-8">
+<title>Islamic Resource Hub</title>
+<style>
+/* Reset & Base */
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Roboto,Arial,sans-serif;background:#eef2f7;color:#111;}
+h1,h2,h3{color:#1e40af;margin-bottom:15px;}
+button{cursor:pointer;transition:all 0.3s;}
+input,textarea{border-radius:6px;padding:10px;border:1px solid #ccc;width:100%;margin:6px 0;}
+
+/* Pages */
+.app-page{display:none;padding:20px;max-width:950px;margin:40px auto;background:white;border-radius:15px;box-shadow:0 10px 25px rgba(0,0,0,0.08);opacity:0;transform:translateY(20px);transition:all 0.4s;}
+.app-page.show{display:block;opacity:1;transform:translateY(0);}
+
+/* Navigation */
+nav{margin-bottom:20px;}
+nav button{margin-right:12px;padding:10px 18px;background:#047857;color:white;border:none;border-radius:8px;}
+nav button:hover{background:#065f46;}
+
+/* Cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));grid-gap:18px;margin-top:20px;}
+.card{background:#f0fdf4;padding:18px;border-radius:12px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.08);transition:all 0.3s;}
+.card:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 8px 25px rgba(0,0,0,0.15);}
+.user-icon{font-size:28px;margin-right:8px;vertical-align:middle;}
+
+/* Buttons */
+button.primary{padding:10px 16px;background:#1e40af;color:white;border:none;border-radius:8px;}
+button.primary:hover{background:#1e3aaf;}
+
+/* Form */
+form{margin-top:15px;}
+textarea{resize:none;}
+
+/* Responsive */
+@media(max-width:600px){.grid{grid-template-columns:1fr;}}
+</style>
 </head>
 <body>
-  <header>
-    <div class="container bar">
-      <div class="brand">
-        <div class="emblem">PLA</div>
-        <div>
-          <div class="title">Pulire l’Auto</div>
-          <div class="muted" style="font-size:12px">Professional Car Detailing</div>
-        </div>
-      </div>
-      <nav>
-        <a href="#services">Services</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#booking" class="btn">Book</a>
-      </nav>
-    </div>
-  </header>
 
-  <section class="hero container">
-    <span class="pill">Professional • Mobile • Affordable</span>
-    <h1>Premium car detailing at your driveway in Hermiston, OR.</h1>
-    <p class="muted">Interior and exterior cleaning for cars, trucks, and SUVs. Book your appointment today.</p>
-    <div style="display:flex;gap:12px;flex-wrap:wrap">
-      <a class="btn solid" href="#booking">Book an appointment</a>
-      <a class="btn" href="tel:+1-000-000-0000">Call now</a>
-    </div>
-  </section>
+<!-- PAGE 1: LOGIN -->
+<div id="page1" class="app-page show">
+  <h1>Islamic Resource Hub</h1>
+  <input id="username" placeholder="Your Name">
+  <input id="icon" placeholder="Icon (🕌)">
+  <button class="primary" onclick="signUp()">Sign Up / Log In</button>
+  <p id="loginMsg" style="color:#dc2626;margin-top:10px;"></p>
+</div>
 
-  <main class="container" id="services">
-    <div class="grid">
-      <article class="card span-8">
-        <h3>Our Services</h3>
-        <p class="muted">Professional detailing tailored to your vehicle. We focus on quality and care for every car.</p>
-        <ul>
-          <li><strong>Exterior Concours</strong> — complete exterior wash & tire care. $30</li>
-          <li><strong>Interior Revival</strong> — deep clean, vacuum, sanitize interior. $30</li>
-          <li><strong>Full Detail</strong> — interior + exterior complete detailing. $50</li>
-        </ul>
-      </article>
-      <aside class="card span-4">
-        <h3>Why Choose Pulire?</h3>
-        <ul class="muted">
-          <li>Professional, mobile detailing</li>
-          <li>High-quality products</li>
-          <li>Flexible appointments</li>
-        </ul>
-      </aside>
-    </div>
+<!-- PAGE 2: RESOURCES -->
+<div id="page2" class="app-page">
+  <nav>
+    <button onclick="goTo('page2')">Resources</button>
+    <button onclick="goTo('page3')">Reviews</button>
+  </nav>
+  <h2>Islamic Resources</h2>
+  <div id="resourceGrid" class="grid"></div>
+</div>
 
-    <section id="pricing" class="grid" aria-label="Pricing">
-      <div class="card span-4">
-        <h3>Exterior Concours</h3>
-        <div class="price">$30</div>
-        <p class="muted">Complete exterior wash, tire care.</p>
-      </div>
-      <div class="card span-4">
-        <h3>Interior Revival</h3>
-        <div class="price">$30</div>
-        <p class="muted">Vacuum, deep clean, sanitize interior surfaces.</p>
-      </div>
-      <div class="card span-4">
-        <h3>Full Detail</h3>
-        <div class="price">$50</div>
-        <p class="muted">Combination of interior + exterior detailing.</p>
-      </div>
-    </section>
+<!-- PAGE 3: REVIEWS -->
+<div id="page3" class="app-page">
+  <nav>
+    <button onclick="goTo('page2')">← Back to Resources</button>
+  </nav>
+  <h2>User Reviews</h2>
+  <div id="reviewGrid" class="grid"></div>
+  <h3>Submit Review</h3>
+  <form onsubmit="submitReview(); return false;">
+    <input id="reviewResource" placeholder="Resource Name" required>
+    <textarea id="reviewText" placeholder="Your review" rows="3" required></textarea>
+    <button class="primary">Submit Review</button>
+  </form>
+</div>
 
-    <section id="booking" class="grid" aria-label="Booking">
-      <div class="card span-6">
-        <h3>Book an Appointment</h3>
-        <p class="muted">Tell us about your vehicle and preferred date. We'll confirm via email.</p>
-        <form action="https://formspree.io/f/xldwlvdv" method="POST" id="bookingForm">
-          <div class="two">
-            <p>
-              <label>Full name</label>
-              <input required name="name" autocomplete="name" />
-            </p>
-            <p>
-              <label>Phone</label>
-              <input required name="phone" type="tel" autocomplete="tel" />
-            </p>
-          </div>
-          <div class="two">
-            <p>
-              <label>Email</label>
-              <input required name="email" type="email" autocomplete="email" />
-            </p>
-            <p>
-              <label>Preferred date</label>
-              <input required name="date" type="date" />
-            </p>
-          </div>
-          <div class="two">
-            <p>
-              <label>Vehicle make & model</label>
-              <input required name="vehicle" placeholder="e.g., 2022 BMW M3" />
-            </p>
-            <p>
-              <label>Service</label>
-              <select name="service" required>
-                <option value="Exterior Concours">Exterior Concours</option>
-                <option value="Interior Revival">Interior Revival</option>
-                <option value="Full Detail">Full Detail</option>
-              </select>
-            </p>
-          </div>
-          <p>
-            <label>Service address</label>
-            <input required name="address" placeholder="Street, City" autocomplete="street-address" />
-          </p>
-          <p>
-            <label>Notes (access, pets, concerns)</label>
-            <textarea name="notes" placeholder="Anything we should know…"></textarea>
-          </p>
-          <button class="btn solid" type="submit">Request booking</button>
-          <div class="success" id="successMsg">Thanks! We received your request and will confirm shortly.</div>
-        </form>
-      </div>
+<script>
+// Current user
+let currentUser=null;
 
-      <div class="card span-6">
-        <h3>Service Area</h3>
-        <p class="muted">We operate as a fully mobile studio in Hermiston, Oregon.</p>
-        <ul class="muted">
-          <li>Instagram: <a href="https://instagram.com/pulire.auto" target="_blank" rel="noopener">@pulire.auto</a></li>
-        </ul>
-      </div>
-    </section>
-  </main>
+// Resources
+let resources=[
+  {title:"Free Tajweed Course",what:"Beginner Tajweed course online",icon:"📖"},
+  {title:"Low-cost Counseling",what:"Sliding scale Islamic counseling",icon:"🕋"},
+  {title:"Islamic Finance Guide",what:"Practical finance tips for youth",icon:"💰"}
+];
 
-  <footer>
-    <div class="container">© <span id="year"></span> Pulire l’Auto. All rights reserved.</div>
-  </footer>
+// Reviews
+let reviews=[];
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-    const form = document.getElementById('bookingForm');
-    form?.addEventListener('submit', async function(e){
-      e.preventDefault();
-      const data = new FormData(form);
-      const res = await fetch(form.action, {method:'POST', body:data, headers:{'Accept':'application/json'}});
-      if(res.ok){document.getElementById('successMsg').style.display='block'; form.reset();}
-      else{alert("Oops! Problem submitting form.")}
-    });
-  </script>
+// Login
+function signUp(){
+  const name=document.getElementById("username").value.trim();
+  const icon=document.getElementById("icon").value.trim()||"🕌";
+  if(!name){document.getElementById("loginMsg").innerText="Enter your name";return;}
+  currentUser={name,icon};
+  document.getElementById("loginMsg").innerText="Signed in as "+name;
+  goTo('page2');
+  renderResources();
+}
+
+// Navigation
+function goTo(pageId){
+  document.querySelectorAll('.app-page').forEach(p=>{
+    p.classList.remove('show');
+    p.style.opacity=0;
+  });
+  const page=document.getElementById(pageId);
+  page.classList.add('show');
+  setTimeout(()=>page.style.opacity=1,50);
+  if(pageId==='page2') renderResources();
+  if(pageId==='page3') renderReviews();
+}
+
+// Render Resources
+function renderResources(){
+  const grid=document.getElementById("resourceGrid");
+  grid.innerHTML="";
+  resources.forEach(r=>{
+    const card=document.createElement("div");
+    card.className="card";
+    card.innerHTML=`<span class="user-icon">${r.icon}</span><strong>${r.title}</strong><br>${r.what}`;
+    grid.appendChild(card);
+  });
+}
+
+// Render Reviews
+function renderReviews(){
+  const grid=document.getElementById("reviewGrid");
+  grid.innerHTML="";
+  reviews.forEach(r=>{
+    const card=document.createElement("div");
+    card.className="card";
+    card.innerHTML=`<span class="user-icon">${r.icon}</span><strong>${r.user}</strong> reviewed <em>${r.resource}</em>:<br>${r.text}`;
+    grid.appendChild(card);
+  });
+}
+
+// Submit Review
+function submitReview(){
+  if(!currentUser){alert("Log in first!"); return;}
+  const text=document.getElementById("reviewText").value.trim();
+  const resource=document.getElementById("reviewResource").value.trim();
+  if(!text||!resource){alert("Enter both resource and review"); return;}
+  reviews.push({user:currentUser.name,icon:currentUser.icon,text,resource});
+  document.getElementById("reviewText").value="";
+  document.getElementById("reviewResource").value="";
+  renderReviews();
+}
+</script>
 </body>
 </html>

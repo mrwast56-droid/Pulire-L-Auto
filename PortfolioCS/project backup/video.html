@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/stile.css"/>
+  </head>
+  <body style="background-color:coral;">
+   <nav>
+      <ul>
+        <li><a href="../project/index.html ">Login page</a></li>
+        <li><a href="../cs195/about.html">About</a></li>
+        <li><a href="video.html"> Intro Page</a></li>
+        <li><a href="../pictures.html">Pictures</a></li>
+        <li><a href="../cs195/faq.html">FAQ</a></li>
+        <li><a href="Supporters.com">Search</a></li>
+      </ul>
+    </nav>
+    <br>
+    <h1>The Fairly Odd Parents</h1>
+  <div id="DisplayVids">
+<iframe id="Movie" width="560" height="315" src="https://www.youtube.com/embed/7YUszjlqWbo?si=7OxOi3s8xOyc3Fnt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe id="Short" width="560" height="315" src="https://www.youtube.com/embed/lbuu_nXztFw?si=HR6S-5KdANFFnRCG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe id="Film" width="560" height="315" src="https://www.youtube.com/embed/zNOusoGrNZs?si=WeYtnJGjnPPrBMtG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe id="Snack" width="560" height="315" src="https://www.youtube.com/embed/iWenWMl1Kp4?si=McQK9hQImT-H3AT1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe id="chilltime" width="560" height="315" src="https://www.youtube.com/embed/P_-oZIJigVs?si=TseH6ltkYgRI4UYh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
+  </div>
+  <div id="checkonVid">
+<label for="DisplayVid">Pick a video to watch!</label>
+<select id="DisplayVid" name="video">
+  <option value="First Video"> Timmy trip to Fairy Land!</option>
+  <option value="Second Video"> Escape from Unwish island!</option>
+  <option value="Third Video"> Timmy can sing!</option>
+  <option value="Fourth Video"> Timmy meets Catman!</option>
+  <option value="Fifth Video"> Timmy's Love at First Sight</option>
+</select>
+  </div>
+  <script>
+    document.getElementById("DisplayVid").addEventListener("change", onChange);
+
+    var MovieEl = document.getElementById("Movie");
+    var ShortEl = document.getElementById("Short");
+    var FilmEl = document.getElementById("Film");
+    var SnackEl = document.getElementById("Snack");
+    var chilltimeEl = document.getElementById("chilltime");
+ 
+     function onChange() {
+    MovieEl.style.display = "none";
+    ShortEl.style.display = "none";
+    FilmEl.style.display = "none";
+    SnackEl.style.display = "none";
+    chilltimeEl.style.display = "none";
+
+    const selected = document.getElementById("DisplayVid").value;
+
+    if (selected === "First Video") {
+        MovieEl.style.display = "block";
+    } else if (selected === "Second Video") {
+        ShortEl.style.display = "block";
+    } else if (selected === "Third Video") {
+        FilmEl.style.display = "block";
+    } else if (selected === "Fourth Video") {
+        SnackEl.style.display = "block";
+    } else if (selected === "Fifth Video") {
+        chilltimeEl.style.display = "block";
+    }
+}
+ </script>
+  </body>
+</html>

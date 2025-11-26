@@ -161,6 +161,18 @@ function openModal(title,desc){
   document.getElementById("modal").classList.add("show");
 }
 function closeModal(){document.getElementById("modal").classList.remove("show");}
+// When creating portfolio
+const isPaid = currentUser.paid; // boolean
+const pub = document.getElementById("portfolioPublic").checked;
+if(!isPaid && !pub){
+  alert("Private portfolios are a premium feature! Upgrade to create private portfolios.");
+  return;
+}
+
+// When rendering portfolios
+if(p.pub || (currentUser && p.owner === currentUser.name && currentUser.paid)){
+  // show card
+}
 
 </script>
 </body>

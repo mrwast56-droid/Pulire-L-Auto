@@ -29,7 +29,7 @@ input,textarea{background:#0f141a;border:1px solid var(--stroke);border-radius:1
 textarea{resize:vertical}
 .grid{display:grid;gap:18px}
 .grid-3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
-.card{background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:20px;transition:all 0.3s}
+.card{background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:20px;transition:all 0.3s;cursor:pointer}
 .card:hover{transform:translateY(-5px);box-shadow:0 5px 20px rgba(0,0,0,0.5)}
 .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);display:grid;place-items:center;opacity:0;pointer-events:none;transition:all 0.3s}
 .modal.active{opacity:1;pointer-events:auto}
@@ -44,16 +44,25 @@ textarea{resize:vertical}
 <header>
   <h1>Student Portfolio Hub</h1>
   <nav>
+    <a href="#" onclick="showPage('landing')">Home</a>
     <a href="#" onclick="showPage('dashboard')">Dashboard</a>
     <a href="#" onclick="showPage('create')">Create Portfolio</a>
+    <a href="#" onclick="showPage('projects')">Projects</a>
     <a href="#" onclick="showPage('explore')">Explore</a>
   </nav>
 </header>
 
 <div class="container">
 
+<!-- Landing Page -->
+<div id="landing" class="page">
+  <h2>Welcome to Student Portfolio Hub</h2>
+  <p>Create, showcase, and explore portfolios professionally.</p>
+  <button onclick="showPage('login')">Login / Sign Up</button>
+</div>
+
 <!-- Login/Signup Page -->
-<div id="login" class="page">
+<div id="login" class="page hidden">
   <h2>Login / Sign Up</h2>
   <input type="text" id="loginName" placeholder="Your Name">
   <input type="email" id="loginEmail" placeholder="Email">
@@ -78,11 +87,17 @@ textarea{resize:vertical}
   <button onclick="createPortfolio()">Create Portfolio</button>
 </div>
 
+<!-- Projects Page -->
+<div id="projects" class="page hidden">
+  <h2>All Projects</h2>
+  <button onclick="uploadProjectPrompt()">Upload New Project</button>
+  <div class="grid grid-3" id="allProjectsGrid"></div>
+</div>
+
 <!-- Explore Public Portfolios Page -->
 <div id="explore" class="page hidden">
   <h2>Explore Public Portfolios</h2>
   <div class="grid grid-3" id="portfolioGrid"></div>
-  <button onclick="showPage('dashboard')">Back to Dashboard</button>
 </div>
 
 </div>
@@ -101,10 +116,12 @@ let user=null;
 let portfolios=[];
 let projects=[];
 
+// Page Navigation
 function showPage(page){
   document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
   document.getElementById(page).classList.remove('hidden');
   if(page==='dashboard'){renderProjects();}
+  if(page==='projects'){renderAllProjects();}
   if(page==='explore'){renderPortfolios();}
 }
 
@@ -135,6 +152,7 @@ function createPortfolio(){
 function uploadProject(name,desc,img){
   projects.push({id:Date.now(),owner:user.name,name,desc,img});
   renderProjects();
+  renderAllProjects();
 }
 function renderProjects(){
   const grid=document.getElementById('projectsGrid');
@@ -145,6 +163,22 @@ function renderProjects(){
     card.innerHTML=`<h3>${p.name}</h3><p>${p.desc}</p>`;
     grid.appendChild(card);
   });
+}
+function renderAllProjects(){
+  const grid=document.getElementById('allProjectsGrid');
+  grid.innerHTML='';
+  projects.forEach(p=>{
+    const card=document.createElement('div');
+    card.className='card';
+    card.innerHTML=`<h3>${p.name}</h3><p>${p.desc}</p><p>By: ${p.owner}</p>`;
+    grid.appendChild(card);
+  });
+}
+function uploadProjectPrompt(){
+  const name=prompt("Project Title");
+  if(!name)return;
+  const desc=prompt("Project Description");
+  uploadProject(name,desc,"");
 }
 
 // Explore

@@ -4,38 +4,18 @@
 <meta charset="UTF-8">
 <title>Islamic Resource Hub</title>
 <style>
-/* Reset & Base */
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Segoe UI',Roboto,Arial,sans-serif;background:#eef2f7;color:#111;}
-h1,h2,h3{color:#1e40af;margin-bottom:15px;}
-button{cursor:pointer;transition:all 0.3s;}
-input,textarea{border-radius:6px;padding:10px;border:1px solid #ccc;width:100%;margin:6px 0;}
-
-/* Pages */
-.app-page{display:none;padding:20px;max-width:950px;margin:40px auto;background:white;border-radius:15px;box-shadow:0 10px 25px rgba(0,0,0,0.08);opacity:0;transform:translateY(20px);transition:all 0.4s;}
-.app-page.show{display:block;opacity:1;transform:translateY(0);}
-
-/* Navigation */
-nav{margin-bottom:20px;}
-nav button{margin-right:12px;padding:10px 18px;background:#047857;color:white;border:none;border-radius:8px;}
-nav button:hover{background:#065f46;}
-
-/* Cards */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));grid-gap:18px;margin-top:20px;}
-.card{background:#f0fdf4;padding:18px;border-radius:12px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.08);transition:all 0.3s;}
-.card:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 8px 25px rgba(0,0,0,0.15);}
-.user-icon{font-size:28px;margin-right:8px;vertical-align:middle;}
-
-/* Buttons */
-button.primary{padding:10px 16px;background:#1e40af;color:white;border:none;border-radius:8px;}
-button.primary:hover{background:#1e3aaf;}
-
-/* Form */
-form{margin-top:15px;}
-textarea{resize:none;}
-
-/* Responsive */
-@media(max-width:600px){.grid{grid-template-columns:1fr;}}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f4f6;}
+.app-page{display:none;padding:20px;max-width:900px;margin:40px auto;background:white;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,0.1);}
+.app-page.show{display:block;}
+h1,h2,h3{color:#1e40af;}
+button{padding:10px 16px;border:none;border-radius:8px;background:#047857;color:white;cursor:pointer;margin:5px;}
+button:hover{background:#065f46;transition:0.3s;}
+input,textarea{width:100%;padding:10px;margin:6px 0;border-radius:6px;border:1px solid #ccc;box-sizing:border-box;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));grid-gap:15px;margin-top:20px;}
+.card{background:#f0fdf4;padding:15px;border-radius:10px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.08);transition:all 0.3s;}
+.card:hover{transform:translateY(-3px) scale(1.01);box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+.user-icon{font-size:24px;margin-right:6px;}
+nav button{margin-right:10px;}
 </style>
 </head>
 <body>
@@ -45,8 +25,8 @@ textarea{resize:none;}
   <h1>Islamic Resource Hub</h1>
   <input id="username" placeholder="Your Name">
   <input id="icon" placeholder="Icon (🕌)">
-  <button class="primary" onclick="signUp()">Sign Up / Log In</button>
-  <p id="loginMsg" style="color:#dc2626;margin-top:10px;"></p>
+  <button onclick="signUp()">Sign Up / Log In</button>
+  <p id="loginMsg"></p>
 </div>
 
 <!-- PAGE 2: RESOURCES -->
@@ -61,17 +41,13 @@ textarea{resize:none;}
 
 <!-- PAGE 3: REVIEWS -->
 <div id="page3" class="app-page">
-  <nav>
-    <button onclick="goTo('page2')">← Back to Resources</button>
-  </nav>
+  <button onclick="goTo('page2')">← Back to Resources</button>
   <h2>User Reviews</h2>
   <div id="reviewGrid" class="grid"></div>
   <h3>Submit Review</h3>
-  <form onsubmit="submitReview(); return false;">
-    <input id="reviewResource" placeholder="Resource Name" required>
-    <textarea id="reviewText" placeholder="Your review" rows="3" required></textarea>
-    <button class="primary">Submit Review</button>
-  </form>
+  <input id="reviewText" placeholder="Your review">
+  <input id="reviewResource" placeholder="Resource name">
+  <button onclick="submitReview()">Submit</button>
 </div>
 
 <script>
@@ -88,26 +64,19 @@ let resources=[
 // Reviews
 let reviews=[];
 
-// Login
 function signUp(){
   const name=document.getElementById("username").value.trim();
   const icon=document.getElementById("icon").value.trim()||"🕌";
-  if(!name){document.getElementById("loginMsg").innerText="Enter your name";return;}
+  if(!name){document.getElementById("loginMsg").innerText="Enter name";return;}
   currentUser={name,icon};
   document.getElementById("loginMsg").innerText="Signed in as "+name;
   goTo('page2');
   renderResources();
 }
 
-// Navigation
 function goTo(pageId){
-  document.querySelectorAll('.app-page').forEach(p=>{
-    p.classList.remove('show');
-    p.style.opacity=0;
-  });
-  const page=document.getElementById(pageId);
-  page.classList.add('show');
-  setTimeout(()=>page.style.opacity=1,50);
+  document.querySelectorAll('.app-page').forEach(p=>p.classList.remove('show'));
+  document.getElementById(pageId).classList.add('show');
   if(pageId==='page2') renderResources();
   if(pageId==='page3') renderReviews();
 }
@@ -138,10 +107,10 @@ function renderReviews(){
 
 // Submit Review
 function submitReview(){
-  if(!currentUser){alert("Log in first!"); return;}
+  if(!currentUser){alert("Log in first!");return;}
   const text=document.getElementById("reviewText").value.trim();
   const resource=document.getElementById("reviewResource").value.trim();
-  if(!text||!resource){alert("Enter both resource and review"); return;}
+  if(!text||!resource){alert("Enter review and resource");return;}
   reviews.push({user:currentUser.name,icon:currentUser.icon,text,resource});
   document.getElementById("reviewText").value="";
   document.getElementById("reviewResource").value="";
@@ -150,3 +119,4 @@ function submitReview(){
 </script>
 </body>
 </html>
+

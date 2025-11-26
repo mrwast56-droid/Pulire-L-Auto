@@ -1,206 +1,131 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Portfolio Hub</title>
-<style>
-:root{
-  --bg:#0b0e12;
-  --card:#12161d;
-  --stroke:#232a34;
-  --ink:#e6e2dc;
-  --tint:#9aa4b2;
-  --accent:#c7b27a;
-  --accent-hover:#d4c08a;
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--ink);}
-a{color:var(--accent);text-decoration:none}
-.hidden{display:none}
-.container{max-width:1000px;margin:auto;padding:24px}
-header{padding:12px 24px;display:flex;justify-content:space-between;align-items:center;background:var(--card);border-bottom:1px solid var(--stroke)}
-header h1{margin:0;font-size:18px;font-weight:700}
-nav a{margin-left:16px;padding:6px 12px;border-radius:8px;transition:all 0.2s}
-nav a:hover{background:rgba(255,255,255,.05)}
-button{cursor:pointer;transition:all 0.2s;border-radius:12px;padding:10px 16px;border:1px solid var(--accent);background:none;color:var(--ink)}
-button:hover{background:var(--accent-hover);color:#111;border-color:var(--accent-hover)}
-input,textarea{background:#0f141a;border:1px solid var(--stroke);border-radius:12px;color:var(--ink);padding:12px 14px;width:100%;margin-bottom:12px}
-textarea{resize:vertical}
-.grid{display:grid;gap:18px}
-.grid-3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
-.card{background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:20px;transition:all 0.3s;cursor:pointer}
-.card:hover{transform:translateY(-5px);box-shadow:0 5px 20px rgba(0,0,0,0.5)}
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);display:grid;place-items:center;opacity:0;pointer-events:none;transition:all 0.3s}
-.modal.active{opacity:1;pointer-events:auto}
-.modal-content{background:var(--card);border-radius:18px;padding:24px;max-width:600px;width:90%;position:relative}
-.modal-content h3{margin-top:0}
-.modal-content button.close{position:absolute;top:12px;right:12px;border:none;background:none;color:var(--accent);font-size:20px;cursor:pointer}
-.pill{display:inline-block;padding:6px 12px;border:1px dashed var(--accent);border-radius:999px;font-size:12px;color:var(--accent)}
-</style>
-</head>
-<body>
+import React, { useState } from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css'; // Tailwind CSS imported here
 
-<header>
-  <h1>Student Portfolio Hub</h1>
-  <nav>
-    <a href="#" onclick="showPage('landing')">Home</a>
-    <a href="#" onclick="showPage('dashboard')">Dashboard</a>
-    <a href="#" onclick="showPage('create')">Create Portfolio</a>
-    <a href="#" onclick="showPage('projects')">Projects</a>
-    <a href="#" onclick="showPage('explore')">Explore</a>
-  </nav>
-</header>
+function App() {
+  const [page, setPage] = useState('landing'); // landing, login, signup, dashboard
+  const [tab, setTab] = useState('portfolios'); // portfolios, projects, explore
 
-<div class="container">
+  // Mock data
+  const [portfolios, setPortfolios] = useState([
+    { id: 1, title: 'Portfolio 1', description: 'My first portfolio', visibility: 'Public' },
+    { id: 2, title: 'Portfolio 2', description: 'Private portfolio', visibility: 'Private' }
+  ]);
+  const [projects, setProjects] = useState([
+    { id: 1, title: 'Project 1', description: 'Cool project', imageUrl: 'https://via.placeholder.com/150' },
+    { id: 2, title: 'Project 2', description: 'Another project', imageUrl: 'https://via.placeholder.com/150' }
+  ]);
 
-<!-- Landing Page -->
-<div id="landing" class="page">
-  <h2>Welcome to Student Portfolio Hub</h2>
-  <p>Create, showcase, and explore portfolios professionally.</p>
-  <button onclick="showPage('login')">Login / Sign Up</button>
-</div>
+  const [modalPortfolio, setModalPortfolio] = useState(null);
 
-<!-- Login/Signup Page -->
-<div id="login" class="page hidden">
-  <h2>Login / Sign Up</h2>
-  <input type="text" id="loginName" placeholder="Your Name">
-  <input type="email" id="loginEmail" placeholder="Email">
-  <button onclick="login()">Login / Sign Up</button>
-</div>
+  const LandingPage = () => (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-gray-100 p-6">
+      <h1 className="text-5xl font-bold mb-4">Student Portfolio Hub</h1>
+      <p className="mb-6 text-gray-400 text-lg text-center">Create, showcase, and explore student portfolios and projects.</p>
+      <div className="flex gap-4">
+        <button className="px-6 py-3 bg-indigo-600 rounded font-bold hover:bg-indigo-500" onClick={()=>setPage('signup')}>Sign Up</button>
+        <button className="px-6 py-3 bg-gray-700 rounded font-bold hover:bg-gray-600" onClick={()=>setPage('login')}>Login</button>
+      </div>
+    </div>
+  );
 
-<!-- Dashboard / Projects Page -->
-<div id="dashboard" class="page hidden">
-  <h2>Dashboard</h2>
-  <button onclick="showPage('create')">Create New Portfolio</button>
-  <h3>Your Projects</h3>
-  <div class="grid grid-3" id="projectsGrid"></div>
-</div>
+  const LoginPage = () => (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-gray-100 p-6">
+      <h2 className="text-3xl font-bold mb-4">Login</h2>
+      <div className="flex flex-col gap-4 w-full max-w-sm">
+        <input className="p-3 rounded bg-gray-800" placeholder="Email" />
+        <input type="password" className="p-3 rounded bg-gray-800" placeholder="Password" />
+        <button className="bg-indigo-600 p-3 rounded font-bold hover:bg-indigo-500" onClick={()=>setPage('dashboard')}>Login</button>
+        <button className="text-gray-400 underline" onClick={()=>setPage('signup')}>Go to Sign Up</button>
+      </div>
+    </div>
+  );
 
-<!-- Create Portfolio Page -->
-<div id="create" class="page hidden">
-  <h2>Create Portfolio</h2>
-  <p class="pill">Public or Private portfolios</p>
-  <input type="text" id="name" placeholder="Portfolio Title">
-  <textarea id="desc" placeholder="Short description"></textarea>
-  <label><input type="checkbox" id="public"> Make Public</label>
-  <button onclick="createPortfolio()">Create Portfolio</button>
-</div>
+  const SignupPage = () => (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-gray-100 p-6">
+      <h2 className="text-3xl font-bold mb-4">Sign Up</h2>
+      <div className="flex flex-col gap-4 w-full max-w-sm">
+        <input className="p-3 rounded bg-gray-800" placeholder="Name" />
+        <input className="p-3 rounded bg-gray-800" placeholder="Email" />
+        <input type="password" className="p-3 rounded bg-gray-800" placeholder="Password" />
+        <button className="bg-indigo-600 p-3 rounded font-bold hover:bg-indigo-500" onClick={()=>setPage('dashboard')}>Sign Up</button>
+        <button className="text-gray-400 underline" onClick={()=>setPage('login')}>Go to Login</button>
+      </div>
+    </div>
+  );
 
-<!-- Projects Page -->
-<div id="projects" class="page hidden">
-  <h2>All Projects</h2>
-  <button onclick="uploadProjectPrompt()">Upload New Project</button>
-  <div class="grid grid-3" id="allProjectsGrid"></div>
-</div>
+  const Dashboard = () => (
+    <div className="min-h-screen bg-gray-900 text-gray-100 p-6">
+      <h1 className="text-3xl mb-4 font-bold">Dashboard</h1>
+      <div className="flex gap-4 mb-6">
+        <button className={`px-4 py-2 rounded ${tab==='portfolios'?'bg-indigo-600':'bg-gray-700'}`} onClick={()=>setTab('portfolios')}>My Portfolios</button>
+        <button className={`px-4 py-2 rounded ${tab==='projects'?'bg-indigo-600':'bg-gray-700'}`} onClick={()=>setTab('projects')}>My Projects</button>
+        <button className={`px-4 py-2 rounded ${tab==='explore'?'bg-indigo-600':'bg-gray-700'}`} onClick={()=>setTab('explore')}>Explore</button>
+      </div>
 
-<!-- Explore Public Portfolios Page -->
-<div id="explore" class="page hidden">
-  <h2>Explore Public Portfolios</h2>
-  <div class="grid grid-3" id="portfolioGrid"></div>
-</div>
+      <div>
+        {tab==='portfolios' && (
+          <div className="grid md:grid-cols-2 gap-4">
+            {portfolios.map(p => (
+              <div key={p.id} className="bg-gray-800 p-4 rounded shadow hover:shadow-lg cursor-pointer" onClick={()=>p.visibility==='Public'?setModalPortfolio(p):alert('Private portfolio')}>
+                <h3 className="font-bold">{p.title}</h3>
+                <p className="text-gray-400">{p.description}</p>
+                <span className="text-sm text-gray-500">{p.visibility}</span>
+              </div>
+            ))}
+          </div>
+        )}
 
-</div>
+        {tab==='projects' && (
+          <div className="grid md:grid-cols-2 gap-4">
+            {projects.map(p => (
+              <div key={p.id} className="bg-gray-800 p-4 rounded shadow hover:shadow-lg">
+                <img src={p.imageUrl} className="w-full h-48 object-cover rounded mb-2"/>
+                <h3 className="font-bold">{p.title}</h3>
+                <p className="text-gray-400">{p.description}</p>
+              </div>
+            ))}
+          </div>
+        )}
 
-<!-- Modal -->
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <button class="close" onclick="closeModal()">×</button>
-    <div id="modalBody"></div>
-  </div>
-</div>
+        {tab==='explore' && (
+          <div className="grid md:grid-cols-2 gap-4">
+            {portfolios.filter(p => p.visibility==='Public').map(p => (
+              <div key={p.id} className="bg-gray-800 p-4 rounded shadow hover:shadow-lg cursor-pointer" onClick={()=>setModalPortfolio(p)}>
+                <h3 className="font-bold">{p.title}</h3>
+                <p className="text-gray-400">{p.description}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
-<script>
-// Data
-let user=null;
-let portfolios=[];
-let projects=[];
+      {modalPortfolio && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-gray-900 p-6 rounded shadow-lg w-11/12 max-w-lg relative">
+            <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-100" onClick={()=>setModalPortfolio(null)}>✕</button>
+            <h2 className="text-2xl font-bold mb-2">{modalPortfolio.title}</h2>
+            <p className="text-gray-400 mb-4">{modalPortfolio.description}</p>
+            <p className="text-sm text-gray-500">{modalPortfolio.visibility}</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 
-// Page Navigation
-function showPage(page){
-  document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
-  document.getElementById(page).classList.remove('hidden');
-  if(page==='dashboard'){renderProjects();}
-  if(page==='projects'){renderAllProjects();}
-  if(page==='explore'){renderPortfolios();}
+  return (
+    <>
+      {page==='landing' && <LandingPage />}
+      {page==='login' && <LoginPage />}
+      {page==='signup' && <SignupPage />}
+      {page==='dashboard' && <Dashboard />}
+    </>
+  );
 }
 
-// Login
-function login(){
-  const name=document.getElementById('loginName').value.trim();
-  const email=document.getElementById('loginEmail').value.trim();
-  if(!name||!email)return alert("Name & Email required");
-  user={name,email};
-  showPage('dashboard');
-}
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
 
-// Portfolio
-function createPortfolio(){
-  if(!user)return alert("Login first!");
-  const title=document.getElementById('name').value.trim();
-  const desc=document.getElementById('desc').value.trim();
-  const pub=document.getElementById('public').checked;
-  if(!title)return alert("Title required");
-  portfolios.push({id:Date.now(),owner:user.name,title,desc,pub});
-  alert("Portfolio created!");
-  document.getElementById('name').value='';
-  document.getElementById('desc').value='';
-  showPage('dashboard');
-}
-
-// Projects
-function uploadProject(name,desc,img){
-  projects.push({id:Date.now(),owner:user.name,name,desc,img});
-  renderProjects();
-  renderAllProjects();
-}
-function renderProjects(){
-  const grid=document.getElementById('projectsGrid');
-  grid.innerHTML='';
-  projects.filter(p=>p.owner===user.name).forEach(p=>{
-    const card=document.createElement('div');
-    card.className='card';
-    card.innerHTML=`<h3>${p.name}</h3><p>${p.desc}</p>`;
-    grid.appendChild(card);
-  });
-}
-function renderAllProjects(){
-  const grid=document.getElementById('allProjectsGrid');
-  grid.innerHTML='';
-  projects.forEach(p=>{
-    const card=document.createElement('div');
-    card.className='card';
-    card.innerHTML=`<h3>${p.name}</h3><p>${p.desc}</p><p>By: ${p.owner}</p>`;
-    grid.appendChild(card);
-  });
-}
-function uploadProjectPrompt(){
-  const name=prompt("Project Title");
-  if(!name)return;
-  const desc=prompt("Project Description");
-  uploadProject(name,desc,"");
-}
-
-// Explore
-function renderPortfolios(){
-  const grid=document.getElementById('portfolioGrid');
-  grid.innerHTML='';
-  portfolios.filter(p=>p.pub).forEach(p=>{
-    const card=document.createElement('div');
-    card.className='card';
-    card.innerHTML=`<h3>${p.title}</h3><p>${p.owner}</p><p>${p.desc}</p>`;
-    card.onclick=()=>openModal(`<h3>${p.title}</h3><p><strong>${p.owner}</strong></p><p>${p.desc}</p>`);
-    grid.appendChild(card);
-  });
-}
-
-// Modal
-function openModal(html){
-  document.getElementById('modalBody').innerHTML=html;
-  document.getElementById('modal').classList.add('active');
-}
-function closeModal(){document.getElementById('modal').classList.remove('active');}
-</script>
-
-</body>
-</html>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

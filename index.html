@@ -2,178 +2,171 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Motivational Quotes Hub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Portfolio Hub</title>
 <style>
-body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:#eef2f7;color:#111;}
-h1,h2,h3{color:#1e40af;margin-bottom:15px;}
-button{cursor:pointer;transition:all 0.3s;}
-input,textarea{border-radius:6px;padding:10px;border:1px solid #ccc;width:100%;margin:6px 0;}
-
-/* Pages */
-.app-page{display:none;padding:20px;max-width:950px;margin:40px auto;background:white;border-radius:15px;box-shadow:0 10px 25px rgba(0,0,0,0.08);opacity:0;transform:translateY(20px);transition:all 0.5s;}
-.app-page.show{display:block;opacity:1;transform:translateY(0);}
-
-/* Navigation */
-nav{margin-bottom:20px;}
-nav button{margin-right:12px;padding:10px 18px;background:#047857;color:white;border:none;border-radius:8px;transition:all 0.3s;}
-nav button:hover{background:#065f46;transform:scale(1.03);}
-
-/* Cards */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));grid-gap:18px;margin-top:20px;}
-.card{background:#f0fdf4;padding:18px;border-radius:12px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.08);transition:all 0.3s;}
-.card:hover{transform:translateY(-5px) scale(1.05);box-shadow:0 10px 30px rgba(0,0,0,0.15);}
-.user-icon{font-size:28px;margin-right:8px;vertical-align:middle;}
-
-/* Buttons */
-button.primary{padding:10px 16px;background:#1e40af;color:white;border:none;border-radius:8px;transition:all 0.3s;}
-button.primary:hover{background:#1c3aa0;transform:scale(1.03);}
-
-/* Modal */
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;justify-content:center;align-items:center;opacity:0;pointer-events:none;transition:opacity 0.3s;}
-.modal.show{opacity:1;pointer-events:auto;}
-.modal-content{background:white;padding:20px;border-radius:12px;max-width:600px;width:90%;box-shadow:0 10px 25px rgba(0,0,0,0.2);transform:scale(0.8);transition:transform 0.3s;}
-.modal.show .modal-content{transform:scale(1);}
-.close-btn{float:right;background:#dc2626;color:white;padding:6px 12px;border:none;border-radius:6px;cursor:pointer;}
-.modal h3{margin-top:0;}
-.modal p{margin-bottom:0;}
+:root{
+  --bg:#0b0e12;
+  --card:#12161d;
+  --stroke:#232a34;
+  --ink:#e6e2dc;
+  --tint:#9aa4b2;
+  --accent:#c7b27a;
+  --accent-hover:#d4c08a;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--ink);}
+a{color:var(--accent);text-decoration:none}
+header{position:sticky;top:0;background:linear-gradient(to bottom, rgba(11,14,18,.95), rgba(11,14,18,.7));border-bottom:1px solid var(--stroke);padding:12px 24px;display:flex;justify-content:space-between;align-items:center;z-index:10}
+header h1{margin:0;font-size:18px;font-weight:700}
+nav a{margin-left:16px;padding:6px 12px;border-radius:8px;transition:all 0.2s}
+nav a:hover{background:rgba(255,255,255,.05)}
+.container{max-width:1000px;margin:auto;padding:24px}
+button{cursor:pointer;transition:all 0.2s;border-radius:12px;padding:10px 16px;border:1px solid var(--accent);background:none;color:var(--ink)}
+button:hover{background:var(--accent-hover);color:#111;border-color:var(--accent-hover)}
+.grid{display:grid;gap:18px}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.card{background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:20px;transition:all 0.3s}
+.card:hover{transform:translateY(-5px);box-shadow:0 5px 20px rgba(0,0,0,0.5)}
+.hidden{display:none}
+input,textarea{background:#0f141a;border:1px solid var(--stroke);border-radius:12px;color:var(--ink);padding:12px 14px;width:100%;margin-bottom:12px}
+textarea{resize:vertical}
+.pill{display:inline-block;padding:6px 12px;border:1px dashed var(--accent);border-radius:999px;font-size:12px;color:var(--accent)}
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);display:grid;place-items:center;opacity:0;pointer-events:none;transition:all 0.3s}
+.modal.active{opacity:1;pointer-events:auto}
+.modal-content{background:var(--card);border-radius:18px;padding:24px;max-width:600px;width:90%;position:relative}
+.modal-content h3{margin-top:0}
+.modal-content button.close{position:absolute;top:12px;right:12px;border:none;background:none;color:var(--accent);font-size:20px;cursor:pointer}
 </style>
 </head>
 <body>
 
-<!-- PAGE 1: LOGIN -->
-<div id="page1" class="app-page show">
-  <h1>Motivational Quote Hub</h1>
-  <input id="username" placeholder="Your Name">
-  <input id="icon" placeholder="Icon (⭐)">
-  <button class="primary" onclick="signUp()">Sign Up / Log In</button>
-  <p id="loginMsg" style="color:#dc2626;margin-top:10px;"></p>
-</div>
-
-<!-- PAGE 2: DAILY QUOTES -->
-<div id="page2" class="app-page">
+<header>
+  <h1>Student Portfolio Hub</h1>
   <nav>
-    <button onclick="goTo('page1')">← Log Out</button>
-    <button onclick="goTo('page3')">Community Quotes</button>
+    <a href="#" onclick="showPage('create')">Create Portfolio</a>
+    <a href="#" onclick="showPage('explore')">Explore Portfolios</a>
+    <a href="#" onclick="showPage('projects')">Projects</a>
   </nav>
-  <h2>Daily Quote</h2>
-  <div id="quoteCard" class="card" style="text-align:center;font-size:20px;padding:30px;cursor:pointer;"></div>
-  <p id="bookHint" style="margin-top:10px;font-style:italic;color:#065f46;"></p>
-  <button class="primary" onclick="nextQuote()">New Quote</button>
+</header>
+
+<div class="container">
+
+<!-- Create Portfolio Page -->
+<div id="create" class="page">
+  <h2>Create Your Portfolio</h2>
+  <p class="pill">Public or Private portfolios</p>
+  <input type="text" id="name" placeholder="Your Name">
+  <input type="text" id="title" placeholder="Portfolio Title">
+  <textarea id="desc" placeholder="Short description about yourself"></textarea>
+  <label><input type="checkbox" id="public"> Make Public</label>
+  <button onclick="createPortfolio()">Create Portfolio</button>
 </div>
 
-<!-- PAGE 3: COMMUNITY QUOTES -->
-<div id="page3" class="app-page">
-  <nav>
-    <button onclick="goTo('page2')">← Back to Daily Quote</button>
-  </nav>
-  <h2>Community Quotes</h2>
-  <div id="communityGrid" class="grid"></div>
-  <h3>Submit a Quote</h3>
-  <form onsubmit="submitCommunityQuote(); return false;">
-    <textarea id="quoteText" placeholder="Your quote" rows="3" required></textarea>
-    <button class="primary">Submit</button>
-  </form>
+<!-- Explore Portfolios Page -->
+<div id="explore" class="page hidden">
+  <h2>Explore Public Portfolios</h2>
+  <div class="grid grid-3" id="portfolioGrid"></div>
+  <button onclick="showPage('create')">Back</button>
 </div>
 
-<!-- MODAL -->
-<div id="modal" class="modal">
+<!-- Projects Page -->
+<div id="projects" class="page hidden">
+  <h2>Upload Your Project</h2>
+  <input type="text" id="projectName" placeholder="Project Name">
+  <input type="text" id="projectDesc" placeholder="Short Description">
+  <input type="url" id="projectImg" placeholder="Image URL">
+  <button onclick="uploadProject()">Upload Project</button>
+  <h3>All Projects</h3>
+  <div class="grid grid-3" id="projectsGrid"></div>
+</div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal" id="modal">
   <div class="modal-content">
-    <button class="close-btn" onclick="closeModal()">Close</button>
-    <h3 id="modalTitle"></h3>
-    <p id="modalDesc"></p>
+    <button class="close" onclick="closeModal()">×</button>
+    <div id="modalBody"></div>
   </div>
 </div>
 
 <script>
-// Current user
-let currentUser=null;
+let portfolios = [];
+let projects = [];
 
-// Quotes (sample)
-const quotes=[
-  {text:"Success is not final, failure is not fatal.",book:"Rich Dad Poor Dad"},
-  {text:"Discipline is the bridge between goals and accomplishment.",book:"Atomic Habits"},
-  {text:"Do not wait to strike till the iron is hot; but make it hot by striking.",book:"The Art of War"}
-];
-
-// Community quotes
-let communityQuotes=[];
-
-// Current quote index
-let currentIndex=0;
-
-// Login
-function signUp(){
-  const name=document.getElementById("username").value.trim();
-  const icon=document.getElementById("icon").value.trim()||"⭐";
-  if(!name){document.getElementById("loginMsg").innerText="Enter your name"; return;}
-  currentUser={name,icon};
-  document.getElementById("loginMsg").innerText="Signed in as "+name;
-  goTo('page2');
-  showQuote();
+function showPage(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+  document.getElementById(page).classList.remove('hidden');
 }
 
-// Navigation
-function goTo(pageId){
-  document.querySelectorAll('.app-page').forEach(p=>p.classList.remove('show'));
-  document.getElementById(pageId).classList.add('show');
-  if(pageId==='page3') renderCommunityQuotes();
+function createPortfolio(){
+  const name = document.getElementById('name').value.trim();
+  const title = document.getElementById('title').value.trim();
+  const desc = document.getElementById('desc').value.trim();
+  const pub = document.getElementById('public').checked;
+  if(!name||!title) return alert("Name & Title required");
+  const port = {id:Date.now(), name, title, desc, pub};
+  portfolios.push(port);
+  alert("Portfolio created!");
+  document.getElementById('name').value='';
+  document.getElementById('title').value='';
+  document.getElementById('desc').value='';
 }
 
-// Show daily quote
-function showQuote(){
-  const q=quotes[currentIndex];
-  document.getElementById("quoteCard").innerText=q.text;
-  document.getElementById("bookHint").innerText=currentUser?.paid?"Recommended book: "+q.book:"(Upgrade to see book suggestions!)";
-}
-
-// Next quote
-function nextQuote(){
-  currentIndex=Math.floor(Math.random()*quotes.length);
-  showQuote();
-}
-
-// Community quotes
-function renderCommunityQuotes(){
-  const grid=document.getElementById("communityGrid");
-  grid.innerHTML="";
-  communityQuotes.forEach(q=>{
-    const card=document.createElement("div");
-    card.className="card";
-    card.innerHTML=`<span class="user-icon">${q.icon}</span><strong>${q.user}</strong>:<br>${q.text}`;
+function renderPortfolios(){
+  const grid = document.getElementById('portfolioGrid');
+  grid.innerHTML='';
+  portfolios.filter(p=>p.pub).forEach(p=>{
+    const card = document.createElement('div');
+    card.className='card';
+    card.innerHTML=`<h3>${p.title}</h3><p>${p.name}</p><p>${p.desc}</p>`;
+    card.onclick=()=>openModal(`<h3>${p.title}</h3><p><strong>${p.name}</strong></p><p>${p.desc}</p>`);
     grid.appendChild(card);
   });
 }
 
-// Submit community quote
-function submitCommunityQuote(){
-  if(!currentUser){alert("Log in first!"); return;}
-  const text=document.getElementById("quoteText").value.trim();
-  if(!text){alert("Enter a quote"); return;}
-  communityQuotes.push({user:currentUser.name,icon:currentUser.icon,text});
-  document.getElementById("quoteText").value="";
-  renderCommunityQuotes();
+function uploadProject(){
+  const name = document.getElementById('projectName').value.trim();
+  const desc = document.getElementById('projectDesc').value.trim();
+  const img = document.getElementById('projectImg').value.trim();
+  if(!name||!img) return alert("Project Name & Image URL required");
+  const project = {id:Date.now(), name, desc, img};
+  projects.push(project);
+  renderProjects();
+  document.getElementById('projectName').value='';
+  document.getElementById('projectDesc').value='';
+  document.getElementById('projectImg').value='';
 }
 
-// Modal (can be used later for paid features)
-function openModal(title,desc){
-  document.getElementById("modalTitle").innerText=title;
-  document.getElementById("modalDesc").innerText=desc;
-  document.getElementById("modal").classList.add("show");
-}
-function closeModal(){document.getElementById("modal").classList.remove("show");}
-// When creating portfolio
-const isPaid = currentUser.paid; // boolean
-const pub = document.getElementById("portfolioPublic").checked;
-if(!isPaid && !pub){
-  alert("Private portfolios are a premium feature! Upgrade to create private portfolios.");
-  return;
+function renderProjects(){
+  const grid = document.getElementById('projectsGrid');
+  grid.innerHTML='';
+  projects.forEach(p=>{
+    const card = document.createElement('div');
+    card.className='card';
+    card.innerHTML=`<img src="${p.img}" alt="${p.name}" style="width:100%;border-radius:12px;margin-bottom:10px"><h3>${p.name}</h3><p>${p.desc}</p>`;
+    grid.appendChild(card);
+  });
 }
 
-// When rendering portfolios
-if(p.pub || (currentUser && p.owner === currentUser.name && currentUser.paid)){
-  // show card
+function openModal(html){
+  document.getElementById('modalBody').innerHTML=html;
+  document.getElementById('modal').classList.add('active');
 }
 
+function closeModal(){
+  document.getElementById('modal').classList.remove('active');
+}
+
+// Update grids on page show
+document.querySelectorAll('nav a').forEach(a=>{
+  a.addEventListener('click',()=>{
+    renderPortfolios();
+    renderProjects();
+  });
+});
 </script>
+
 </body>
 </html>

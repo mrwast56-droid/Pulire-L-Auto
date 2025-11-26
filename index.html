@@ -17,26 +17,26 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--ink);}
 a{color:var(--accent);text-decoration:none}
-header{position:sticky;top:0;background:linear-gradient(to bottom, rgba(11,14,18,.95), rgba(11,14,18,.7));border-bottom:1px solid var(--stroke);padding:12px 24px;display:flex;justify-content:space-between;align-items:center;z-index:10}
+.hidden{display:none}
+.container{max-width:1000px;margin:auto;padding:24px}
+header{padding:12px 24px;display:flex;justify-content:space-between;align-items:center;background:var(--card);border-bottom:1px solid var(--stroke)}
 header h1{margin:0;font-size:18px;font-weight:700}
 nav a{margin-left:16px;padding:6px 12px;border-radius:8px;transition:all 0.2s}
 nav a:hover{background:rgba(255,255,255,.05)}
-.container{max-width:1000px;margin:auto;padding:24px}
 button{cursor:pointer;transition:all 0.2s;border-radius:12px;padding:10px 16px;border:1px solid var(--accent);background:none;color:var(--ink)}
 button:hover{background:var(--accent-hover);color:#111;border-color:var(--accent-hover)}
+input,textarea{background:#0f141a;border:1px solid var(--stroke);border-radius:12px;color:var(--ink);padding:12px 14px;width:100%;margin-bottom:12px}
+textarea{resize:vertical}
 .grid{display:grid;gap:18px}
 .grid-3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
 .card{background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:20px;transition:all 0.3s}
 .card:hover{transform:translateY(-5px);box-shadow:0 5px 20px rgba(0,0,0,0.5)}
-.hidden{display:none}
-input,textarea{background:#0f141a;border:1px solid var(--stroke);border-radius:12px;color:var(--ink);padding:12px 14px;width:100%;margin-bottom:12px}
-textarea{resize:vertical}
-.pill{display:inline-block;padding:6px 12px;border:1px dashed var(--accent);border-radius:999px;font-size:12px;color:var(--accent)}
 .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);display:grid;place-items:center;opacity:0;pointer-events:none;transition:all 0.3s}
 .modal.active{opacity:1;pointer-events:auto}
 .modal-content{background:var(--card);border-radius:18px;padding:24px;max-width:600px;width:90%;position:relative}
 .modal-content h3{margin-top:0}
 .modal-content button.close{position:absolute;top:12px;right:12px;border:none;background:none;color:var(--accent);font-size:20px;cursor:pointer}
+.pill{display:inline-block;padding:6px 12px;border:1px dashed var(--accent);border-radius:999px;font-size:12px;color:var(--accent)}
 </style>
 </head>
 <body>
@@ -44,41 +44,45 @@ textarea{resize:vertical}
 <header>
   <h1>Student Portfolio Hub</h1>
   <nav>
+    <a href="#" onclick="showPage('dashboard')">Dashboard</a>
     <a href="#" onclick="showPage('create')">Create Portfolio</a>
-    <a href="#" onclick="showPage('explore')">Explore Portfolios</a>
-    <a href="#" onclick="showPage('projects')">Projects</a>
+    <a href="#" onclick="showPage('explore')">Explore</a>
   </nav>
 </header>
 
 <div class="container">
 
+<!-- Login/Signup Page -->
+<div id="login" class="page">
+  <h2>Login / Sign Up</h2>
+  <input type="text" id="loginName" placeholder="Your Name">
+  <input type="email" id="loginEmail" placeholder="Email">
+  <button onclick="login()">Login / Sign Up</button>
+</div>
+
+<!-- Dashboard / Projects Page -->
+<div id="dashboard" class="page hidden">
+  <h2>Dashboard</h2>
+  <button onclick="showPage('create')">Create New Portfolio</button>
+  <h3>Your Projects</h3>
+  <div class="grid grid-3" id="projectsGrid"></div>
+</div>
+
 <!-- Create Portfolio Page -->
-<div id="create" class="page">
-  <h2>Create Your Portfolio</h2>
+<div id="create" class="page hidden">
+  <h2>Create Portfolio</h2>
   <p class="pill">Public or Private portfolios</p>
-  <input type="text" id="name" placeholder="Your Name">
-  <input type="text" id="title" placeholder="Portfolio Title">
-  <textarea id="desc" placeholder="Short description about yourself"></textarea>
+  <input type="text" id="name" placeholder="Portfolio Title">
+  <textarea id="desc" placeholder="Short description"></textarea>
   <label><input type="checkbox" id="public"> Make Public</label>
   <button onclick="createPortfolio()">Create Portfolio</button>
 </div>
 
-<!-- Explore Portfolios Page -->
+<!-- Explore Public Portfolios Page -->
 <div id="explore" class="page hidden">
   <h2>Explore Public Portfolios</h2>
   <div class="grid grid-3" id="portfolioGrid"></div>
-  <button onclick="showPage('create')">Back</button>
-</div>
-
-<!-- Projects Page -->
-<div id="projects" class="page hidden">
-  <h2>Upload Your Project</h2>
-  <input type="text" id="projectName" placeholder="Project Name">
-  <input type="text" id="projectDesc" placeholder="Short Description">
-  <input type="url" id="projectImg" placeholder="Image URL">
-  <button onclick="uploadProject()">Upload Project</button>
-  <h3>All Projects</h3>
-  <div class="grid grid-3" id="projectsGrid"></div>
+  <button onclick="showPage('dashboard')">Back to Dashboard</button>
 </div>
 
 </div>
@@ -92,80 +96,76 @@ textarea{resize:vertical}
 </div>
 
 <script>
-let portfolios = [];
-let projects = [];
+// Data
+let user=null;
+let portfolios=[];
+let projects=[];
 
 function showPage(page){
   document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
   document.getElementById(page).classList.remove('hidden');
+  if(page==='dashboard'){renderProjects();}
+  if(page==='explore'){renderPortfolios();}
 }
 
+// Login
+function login(){
+  const name=document.getElementById('loginName').value.trim();
+  const email=document.getElementById('loginEmail').value.trim();
+  if(!name||!email)return alert("Name & Email required");
+  user={name,email};
+  showPage('dashboard');
+}
+
+// Portfolio
 function createPortfolio(){
-  const name = document.getElementById('name').value.trim();
-  const title = document.getElementById('title').value.trim();
-  const desc = document.getElementById('desc').value.trim();
-  const pub = document.getElementById('public').checked;
-  if(!name||!title) return alert("Name & Title required");
-  const port = {id:Date.now(), name, title, desc, pub};
-  portfolios.push(port);
+  if(!user)return alert("Login first!");
+  const title=document.getElementById('name').value.trim();
+  const desc=document.getElementById('desc').value.trim();
+  const pub=document.getElementById('public').checked;
+  if(!title)return alert("Title required");
+  portfolios.push({id:Date.now(),owner:user.name,title,desc,pub});
   alert("Portfolio created!");
   document.getElementById('name').value='';
-  document.getElementById('title').value='';
   document.getElementById('desc').value='';
+  showPage('dashboard');
 }
 
+// Projects
+function uploadProject(name,desc,img){
+  projects.push({id:Date.now(),owner:user.name,name,desc,img});
+  renderProjects();
+}
+function renderProjects(){
+  const grid=document.getElementById('projectsGrid');
+  grid.innerHTML='';
+  projects.filter(p=>p.owner===user.name).forEach(p=>{
+    const card=document.createElement('div');
+    card.className='card';
+    card.innerHTML=`<h3>${p.name}</h3><p>${p.desc}</p>`;
+    grid.appendChild(card);
+  });
+}
+
+// Explore
 function renderPortfolios(){
-  const grid = document.getElementById('portfolioGrid');
+  const grid=document.getElementById('portfolioGrid');
   grid.innerHTML='';
   portfolios.filter(p=>p.pub).forEach(p=>{
-    const card = document.createElement('div');
+    const card=document.createElement('div');
     card.className='card';
-    card.innerHTML=`<h3>${p.title}</h3><p>${p.name}</p><p>${p.desc}</p>`;
-    card.onclick=()=>openModal(`<h3>${p.title}</h3><p><strong>${p.name}</strong></p><p>${p.desc}</p>`);
+    card.innerHTML=`<h3>${p.title}</h3><p>${p.owner}</p><p>${p.desc}</p>`;
+    card.onclick=()=>openModal(`<h3>${p.title}</h3><p><strong>${p.owner}</strong></p><p>${p.desc}</p>`);
     grid.appendChild(card);
   });
 }
 
-function uploadProject(){
-  const name = document.getElementById('projectName').value.trim();
-  const desc = document.getElementById('projectDesc').value.trim();
-  const img = document.getElementById('projectImg').value.trim();
-  if(!name||!img) return alert("Project Name & Image URL required");
-  const project = {id:Date.now(), name, desc, img};
-  projects.push(project);
-  renderProjects();
-  document.getElementById('projectName').value='';
-  document.getElementById('projectDesc').value='';
-  document.getElementById('projectImg').value='';
-}
-
-function renderProjects(){
-  const grid = document.getElementById('projectsGrid');
-  grid.innerHTML='';
-  projects.forEach(p=>{
-    const card = document.createElement('div');
-    card.className='card';
-    card.innerHTML=`<img src="${p.img}" alt="${p.name}" style="width:100%;border-radius:12px;margin-bottom:10px"><h3>${p.name}</h3><p>${p.desc}</p>`;
-    grid.appendChild(card);
-  });
-}
-
+// Modal
 function openModal(html){
   document.getElementById('modalBody').innerHTML=html;
   document.getElementById('modal').classList.add('active');
 }
-
-function closeModal(){
-  document.getElementById('modal').classList.remove('active');
-}
-
-// Update grids on page show
-document.querySelectorAll('nav a').forEach(a=>{
-  a.addEventListener('click',()=>{
-    renderPortfolios();
-    renderProjects();
-  });
-});
+function closeModal(){document.getElementById('modal').classList.remove('active');}
 </script>
 
 </body>

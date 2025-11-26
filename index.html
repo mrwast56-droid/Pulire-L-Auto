@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Student Portfolio Hub</title>
+<title>Motivational Quotes Hub</title>
 <style>
 body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:#eef2f7;color:#111;}
 h1,h2,h3{color:#1e40af;margin-bottom:15px;}
@@ -35,45 +35,47 @@ button.primary:hover{background:#1c3aa0;transform:scale(1.03);}
 .modal.show .modal-content{transform:scale(1);}
 .close-btn{float:right;background:#dc2626;color:white;padding:6px 12px;border:none;border-radius:6px;cursor:pointer;}
 .modal h3{margin-top:0;}
-.modal ul{list-style:disc;margin-left:20px;}
+.modal p{margin-bottom:0;}
 </style>
 </head>
 <body>
 
 <!-- PAGE 1: LOGIN -->
 <div id="page1" class="app-page show">
-  <h1>Student Portfolio Hub</h1>
+  <h1>Motivational Quote Hub</h1>
   <input id="username" placeholder="Your Name">
-  <input id="icon" placeholder="Icon (👤)">
+  <input id="icon" placeholder="Icon (⭐)">
   <button class="primary" onclick="signUp()">Sign Up / Log In</button>
   <p id="loginMsg" style="color:#dc2626;margin-top:10px;"></p>
 </div>
 
-<!-- PAGE 2: CREATE PORTFOLIO -->
+<!-- PAGE 2: DAILY QUOTES -->
 <div id="page2" class="app-page">
   <nav>
-    <button onclick="goTo('page1')">← Back</button>
-    <button onclick="goTo('page3')">Explore Portfolios</button>
+    <button onclick="goTo('page1')">← Log Out</button>
+    <button onclick="goTo('page3')">Community Quotes</button>
   </nav>
-  <h2>Create Portfolio</h2>
-  <form onsubmit="createPortfolio(); return false;">
-    <input id="portfolioName" placeholder="Portfolio Name" required>
-    <textarea id="portfolioDesc" placeholder="Description" rows="3"></textarea>
-    <input id="portfolioPublic" type="checkbox"> Public Portfolio<br><br>
-    <button class="primary">Save Portfolio</button>
+  <h2>Daily Quote</h2>
+  <div id="quoteCard" class="card" style="text-align:center;font-size:20px;padding:30px;cursor:pointer;"></div>
+  <p id="bookHint" style="margin-top:10px;font-style:italic;color:#065f46;"></p>
+  <button class="primary" onclick="nextQuote()">New Quote</button>
+</div>
+
+<!-- PAGE 3: COMMUNITY QUOTES -->
+<div id="page3" class="app-page">
+  <nav>
+    <button onclick="goTo('page2')">← Back to Daily Quote</button>
+  </nav>
+  <h2>Community Quotes</h2>
+  <div id="communityGrid" class="grid"></div>
+  <h3>Submit a Quote</h3>
+  <form onsubmit="submitCommunityQuote(); return false;">
+    <textarea id="quoteText" placeholder="Your quote" rows="3" required></textarea>
+    <button class="primary">Submit</button>
   </form>
 </div>
 
-<!-- PAGE 3: EXPLORE PORTFOLIOS -->
-<div id="page3" class="app-page">
-  <nav>
-    <button onclick="goTo('page2')">← Back to Create</button>
-  </nav>
-  <h2>Explore Portfolios</h2>
-  <div id="portfolioGrid" class="grid"></div>
-</div>
-
-<!-- MODAL FOR PORTFOLIO DETAILS -->
+<!-- MODAL -->
 <div id="modal" class="modal">
   <div class="modal-content">
     <button class="close-btn" onclick="closeModal()">Close</button>
@@ -86,62 +88,80 @@ button.primary:hover{background:#1c3aa0;transform:scale(1.03);}
 // Current user
 let currentUser=null;
 
-// Portfolios
-let portfolios=[];
+// Quotes (sample)
+const quotes=[
+  {text:"Success is not final, failure is not fatal.",book:"Rich Dad Poor Dad"},
+  {text:"Discipline is the bridge between goals and accomplishment.",book:"Atomic Habits"},
+  {text:"Do not wait to strike till the iron is hot; but make it hot by striking.",book:"The Art of War"}
+];
+
+// Community quotes
+let communityQuotes=[];
+
+// Current quote index
+let currentIndex=0;
 
 // Login
 function signUp(){
   const name=document.getElementById("username").value.trim();
-  const icon=document.getElementById("icon").value.trim()||"👤";
+  const icon=document.getElementById("icon").value.trim()||"⭐";
   if(!name){document.getElementById("loginMsg").innerText="Enter your name"; return;}
   currentUser={name,icon};
   document.getElementById("loginMsg").innerText="Signed in as "+name;
   goTo('page2');
+  showQuote();
 }
 
 // Navigation
 function goTo(pageId){
   document.querySelectorAll('.app-page').forEach(p=>p.classList.remove('show'));
   document.getElementById(pageId).classList.add('show');
-  if(pageId==='page3') renderPortfolios();
+  if(pageId==='page3') renderCommunityQuotes();
 }
 
-// Create Portfolio
-function createPortfolio(){
-  if(!currentUser){alert("Log in first!"); return;}
-  const name=document.getElementById("portfolioName").value.trim();
-  const desc=document.getElementById("portfolioDesc").value.trim();
-  const pub=document.getElementById("portfolioPublic").checked;
-  portfolios.push({owner:currentUser.name,icon:currentUser.icon,name,desc,pub});
-  alert("Portfolio created!");
-  document.getElementById("portfolioName").value="";
-  document.getElementById("portfolioDesc").value="";
+// Show daily quote
+function showQuote(){
+  const q=quotes[currentIndex];
+  document.getElementById("quoteCard").innerText=q.text;
+  document.getElementById("bookHint").innerText=currentUser?.paid?"Recommended book: "+q.book:"(Upgrade to see book suggestions!)";
 }
 
-// Render Portfolios
-function renderPortfolios(){
-  const grid=document.getElementById("portfolioGrid");
+// Next quote
+function nextQuote(){
+  currentIndex=Math.floor(Math.random()*quotes.length);
+  showQuote();
+}
+
+// Community quotes
+function renderCommunityQuotes(){
+  const grid=document.getElementById("communityGrid");
   grid.innerHTML="";
-  portfolios.filter(p=>p.pub).forEach(p=>{
+  communityQuotes.forEach(q=>{
     const card=document.createElement("div");
     card.className="card";
-    card.innerHTML=`<span class="user-icon">${p.icon}</span><strong>${p.name}</strong>`;
-    card.onclick=()=>openModal(p);
+    card.innerHTML=`<span class="user-icon">${q.icon}</span><strong>${q.user}</strong>:<br>${q.text}`;
     grid.appendChild(card);
   });
 }
 
-// Open Modal
-function openModal(p){
-  document.getElementById("modalTitle").innerText=p.name+" by "+p.owner;
-  document.getElementById("modalDesc").innerText=p.desc||"No description";
-  document.getElementById("modal").classList.add("show");
+// Submit community quote
+function submitCommunityQuote(){
+  if(!currentUser){alert("Log in first!"); return;}
+  const text=document.getElementById("quoteText").value.trim();
+  if(!text){alert("Enter a quote"); return;}
+  communityQuotes.push({user:currentUser.name,icon:currentUser.icon,text});
+  document.getElementById("quoteText").value="";
+  renderCommunityQuotes();
 }
 
-// Close Modal
-function closeModal(){
-  document.getElementById("modal").classList.remove("show");
+// Modal (can be used later for paid features)
+function openModal(title,desc){
+  document.getElementById("modalTitle").innerText=title;
+  document.getElementById("modalDesc").innerText=desc;
+  document.getElementById("modal").classList.add("show");
 }
+function closeModal(){document.getElementById("modal").classList.remove("show");}
+
 </script>
 </body>
 </html>

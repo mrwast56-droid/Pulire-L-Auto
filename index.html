@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Islamic Resource Hub</title>
+<title>Student Portfolio Hub</title>
 <style>
 body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:#eef2f7;color:#111;}
 h1,h2,h3{color:#1e40af;margin-bottom:15px;}
@@ -42,44 +42,43 @@ button.primary:hover{background:#1c3aa0;transform:scale(1.03);}
 
 <!-- PAGE 1: LOGIN -->
 <div id="page1" class="app-page show">
-  <h1>Islamic Resource Hub</h1>
+  <h1>Student Portfolio Hub</h1>
   <input id="username" placeholder="Your Name">
-  <input id="icon" placeholder="Icon (🕌)">
+  <input id="icon" placeholder="Icon (👤)">
   <button class="primary" onclick="signUp()">Sign Up / Log In</button>
   <p id="loginMsg" style="color:#dc2626;margin-top:10px;"></p>
 </div>
 
-<!-- PAGE 2: RESOURCES -->
+<!-- PAGE 2: CREATE PORTFOLIO -->
 <div id="page2" class="app-page">
   <nav>
-    <button onclick="goTo('page2')">Resources</button>
-    <button onclick="goTo('page3')">Reviews</button>
+    <button onclick="goTo('page1')">← Back</button>
+    <button onclick="goTo('page3')">Explore Portfolios</button>
   </nav>
-  <h2>Islamic Resources</h2>
-  <div id="resourceGrid" class="grid"></div>
-</div>
-
-<!-- PAGE 3: REVIEWS -->
-<div id="page3" class="app-page">
-  <nav>
-    <button onclick="goTo('page2')">← Back to Resources</button>
-  </nav>
-  <h2>User Reviews</h2>
-  <div id="reviewGrid" class="grid"></div>
-  <h3>Submit Review</h3>
-  <form onsubmit="submitReview(); return false;">
-    <input id="reviewResource" placeholder="Resource Name" required>
-    <textarea id="reviewText" placeholder="Your review" rows="3" required></textarea>
-    <button class="primary">Submit Review</button>
+  <h2>Create Portfolio</h2>
+  <form onsubmit="createPortfolio(); return false;">
+    <input id="portfolioName" placeholder="Portfolio Name" required>
+    <textarea id="portfolioDesc" placeholder="Description" rows="3"></textarea>
+    <input id="portfolioPublic" type="checkbox"> Public Portfolio<br><br>
+    <button class="primary">Save Portfolio</button>
   </form>
 </div>
 
-<!-- MODAL FOR RESOURCE DETAILS -->
+<!-- PAGE 3: EXPLORE PORTFOLIOS -->
+<div id="page3" class="app-page">
+  <nav>
+    <button onclick="goTo('page2')">← Back to Create</button>
+  </nav>
+  <h2>Explore Portfolios</h2>
+  <div id="portfolioGrid" class="grid"></div>
+</div>
+
+<!-- MODAL FOR PORTFOLIO DETAILS -->
 <div id="modal" class="modal">
   <div class="modal-content">
     <button class="close-btn" onclick="closeModal()">Close</button>
     <h3 id="modalTitle"></h3>
-    <ul id="modalList"></ul>
+    <p id="modalDesc"></p>
   </div>
 </div>
 
@@ -87,58 +86,55 @@ button.primary:hover{background:#1c3aa0;transform:scale(1.03);}
 // Current user
 let currentUser=null;
 
-// Resources with sub-items
-let resources=[
-  {title:"Free Tajweed Course",icon:"📖",items:["Beginner Tajweed Online","Intermediate Tajweed Online","Advanced Tajweed Workshop"]},
-  {title:"Low-cost Counseling",icon:"🕋",items:["Youth Counseling","Adult Counseling","Sliding Scale Sessions"]},
-  {title:"Islamic Finance Guide",icon:"💰",items:["Budgeting Tips","Halal Investment Guide","Charity Planning"]}
-];
-
-// Reviews
-let reviews=[];
+// Portfolios
+let portfolios=[];
 
 // Login
 function signUp(){
   const name=document.getElementById("username").value.trim();
-  const icon=document.getElementById("icon").value.trim()||"🕌";
+  const icon=document.getElementById("icon").value.trim()||"👤";
   if(!name){document.getElementById("loginMsg").innerText="Enter your name"; return;}
   currentUser={name,icon};
   document.getElementById("loginMsg").innerText="Signed in as "+name;
   goTo('page2');
-  renderResources();
 }
 
 // Navigation
 function goTo(pageId){
   document.querySelectorAll('.app-page').forEach(p=>p.classList.remove('show'));
   document.getElementById(pageId).classList.add('show');
-  if(pageId==='page2') renderResources();
-  if(pageId==='page3') renderReviews();
+  if(pageId==='page3') renderPortfolios();
 }
 
-// Render Resources
-function renderResources(){
-  const grid=document.getElementById("resourceGrid");
+// Create Portfolio
+function createPortfolio(){
+  if(!currentUser){alert("Log in first!"); return;}
+  const name=document.getElementById("portfolioName").value.trim();
+  const desc=document.getElementById("portfolioDesc").value.trim();
+  const pub=document.getElementById("portfolioPublic").checked;
+  portfolios.push({owner:currentUser.name,icon:currentUser.icon,name,desc,pub});
+  alert("Portfolio created!");
+  document.getElementById("portfolioName").value="";
+  document.getElementById("portfolioDesc").value="";
+}
+
+// Render Portfolios
+function renderPortfolios(){
+  const grid=document.getElementById("portfolioGrid");
   grid.innerHTML="";
-  resources.forEach(r=>{
+  portfolios.filter(p=>p.pub).forEach(p=>{
     const card=document.createElement("div");
     card.className="card";
-    card.innerHTML=`<span class="user-icon">${r.icon}</span><strong>${r.title}</strong>`;
-    card.onclick=()=>openModal(r);
+    card.innerHTML=`<span class="user-icon">${p.icon}</span><strong>${p.name}</strong>`;
+    card.onclick=()=>openModal(p);
     grid.appendChild(card);
   });
 }
 
 // Open Modal
-function openModal(resource){
-  document.getElementById("modalTitle").innerText=resource.title;
-  const list=document.getElementById("modalList");
-  list.innerHTML="";
-  resource.items.forEach(i=>{
-    const li=document.createElement("li");
-    li.innerText=i;
-    list.appendChild(li);
-  });
+function openModal(p){
+  document.getElementById("modalTitle").innerText=p.name+" by "+p.owner;
+  document.getElementById("modalDesc").innerText=p.desc||"No description";
   document.getElementById("modal").classList.add("show");
 }
 
@@ -146,31 +142,6 @@ function openModal(resource){
 function closeModal(){
   document.getElementById("modal").classList.remove("show");
 }
-
-// Render Reviews
-function renderReviews(){
-  const grid=document.getElementById("reviewGrid");
-  grid.innerHTML="";
-  reviews.forEach(r=>{
-    const card=document.createElement("div");
-    card.className="card";
-    card.innerHTML=`<span class="user-icon">${r.icon}</span><strong>${r.user}</strong> reviewed <em>${r.resource}</em>:<br>${r.text}`;
-    grid.appendChild(card);
-  });
-}
-
-// Submit Review
-function submitReview(){
-  if(!currentUser){alert("Log in first!"); return;}
-  const text=document.getElementById("reviewText").value.trim();
-  const resource=document.getElementById("reviewResource").value.trim();
-  if(!text||!resource){alert("Enter review and resource"); return;}
-  reviews.push({user:currentUser.name,icon:currentUser.icon,text,resource});
-  document.getElementById("reviewText").value="";
-  document.getElementById("reviewResource").value="";
-  renderReviews();
-}
 </script>
 </body>
 </html>
-

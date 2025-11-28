@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SaaS</title>
+    <style>
+      h1 {
+        text-align: center;
+      }
+
+      p {
+        text-align: center;
+      }
+
+      div {
+        text-align: center;
+      }
+      img {
+        display: block;
+        margin: 0 auto;
+      }
+      nav {
+        text-align: center;
+        margin-top: 20px;
+        padding: 0;
+      }
+
+      nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      nav li {
+        display: inline;
+        margin-right: 15px;
+      }
+      nav a {
+        text-decoration: none;
+        color: black;
+        font-weight: none;
+      }
+      .box {
+        text-align: right;
+        margin-top: -10px;
+        padding: 0;
+      }
+      .box ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      .box li {
+        display: inline;
+        margin-right: 15px;
+      }
+      body {
+        background-image: url(pro.png);
+        background-repeat: none;
+        background-position: center;
+        background-size: cover;
+      }
+      body {
+        position: relative;
+        margin: 0;
+      }
+      .logo {
+        width: 150px;
+        padding-left: 22px;
+        position: absolute;
+        top: 0;
+        right: 540px;
+        margin-top: -33px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="news.asp">News</a></li>
+        <li><a href="contact.asp">Contact</a></li>
+        <li><a href="about.asp">About</a></li>
+      </ul>
+      <div class="box">
+        <ul>
+          <li><a href="random.asp">Login</a></li>
+          <li><a href="yea.asp">Sign Up</a></li>
+          <li><a href="yelp.sss">Try For Free</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="logo">
+      <img class="logo" src="Sqib.png" alt="Yurr" />
+    </div>
+    <div>
+      <h2>Tokyo.</h2>
+      <p>Japan is the best</p>
+    </div>
+  </body>
+</html>

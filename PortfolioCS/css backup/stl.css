@@ -1,0 +1,75 @@
+nav {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #111;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+nav li {
+  margin: 0 15px;
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+  font-style: italic;
+  font-weight: normal;
+  display: block;
+  padding: 15px;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  background-color: white;
+  font-family: Arial;
+}
+.contain {
+  background-color: white;
+  border: 1px, solid black;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.log {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 220px;
+}
+
+.pass {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 220px;
+}
+.submit {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 100px;
+  margin: 10px 0;
+  padding: 0px;
+  margin-right: 0px;
+}

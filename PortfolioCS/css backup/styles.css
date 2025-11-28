@@ -1,0 +1,36 @@
+#all {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#topbox {
+  background-color: aqua;
+  min-width: 1900px;
+  height: 150px;
+}
+
+#main {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+#leftbox {
+  background-color: black;
+  border: 2px dashed blue;
+  width: 50%;
+  height: 600px;
+}
+#rightbox {
+  background-color: chartreuse;
+  border: 2px dashed blue;
+  width: 50%;
+  height: 600px;
+}
+
+#bottombox {
+  background-color: chocolate;
+  min-width: 50%;
+  height: 130px;
+}

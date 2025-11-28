@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #theMoney {
+            display:none;
+        }
+        #moreMoney{
+            display:none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Show Me The Money</h1>
+    <div id="theMoney">
+        <h2>The Money</h2>
+        <img id="mymoney" src="../pics/cash.jpg" alt="BIG PILE OF CASH" width="400px">
+        <button id="moreMoneyBtn">Show me MORE money</button>
+    </div>
+    <div id="moneyCheck">
+        <input type="test" id="moneyCheckinput"><br>
+        <button id="showMe">SHOW ME THE MONEY!!!!!!!!</button>
+    </div>
+    <div id="moreMoney">
+        <img id="moreMoneyPic" src="/pics/even more.jpg" alt="MORE MONEYY!!" width="400px">
+        <button id="allDone">Dueces</button>
+    </div>
+    <script>
+        document.getElementById("showMe").addEventListener("click",showMe);
+        document.getElementById("moreMoneyBtn").addEventListener("click",showMeMore);
+        document.getElementById("allDone").addEventListener("click",done);
+        var moneyMainEl = document.getElementById("theMoney");
+        var moneyCheckEl = document.getElementById("moneyCheck");
+        var moreMoneyEl = document.getElementById("moreMoney");
+        var moreMoneyBtnEl = document.getElementById("moreMoneyBtn");
+        function showMe(){
+            var textInput = document.getElementById("moneyCheckinput").value;
+            if (textInput == "THE MONEY"){
+                moneyMainEl.style.display = "block";
+                moneyCheckEl.style.display = "none";
+            }
+            else{
+                alert("NO MONEY FOR YOU!!!!!!!!!")
+            }
+        }
+        function showMeMore(){
+            moreMoneyEl.style.display = "block";
+            moreMoneyBtnEl.style.display = "none";
+        }
+        function done(){
+            moneyMainEl.style.display = "none";
+            moneyCheckEl.style.display = "block";
+            moreMoneyEl.style.display = "none";
+            moreMoneyBtnEl.style.display = "block";
+            document.getElementById("moneyCheckinput").value = "I changed it"
+        }
+    </script>
+</body>
+</html>

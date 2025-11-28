@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pictures Page</title>
+    <link rel="stylesheet" href="../css/style.css"> 
+</head>
+<body>
+        <h1>Key Moments from Breaking Bad</h1>
+        <div class="tim">
+        <img src="pics/img1.jpg" alt="Main character scene" class="float-right">
+            <p>Walter White is a high school chemistry teacher who is intelligent, careful, and determined. When faced with unexpected challenges in his life, he decides to take bold actions to secure his family’s future. His partner, Jesse Pinkman, is a former student who has experience in the world Walter enters. Together, Walter and Jesse form a unique team, combining Walter’s scientific knowledge with Jesse’s street smart skills. These two characters are central to the story, and their dynamic drives much of the action in the series.</p> 
+         </div>
+         <div class="kid">
+            <img src="pics/caug.jpg" alt="Important Battle Scene" class="float-right">
+            <p>Throughout the series, Walter carefully works to hide his actions from those around him. One memorable scene shows him writing “Heisenberg” in paint, representing the secret identity he adopts to protect himself and his family. Walter’s work requires clever thinking and careful planning, as he constantly devises ways to keep his activities secret. Scenes like this highlight the tension and creativity in the story, showing how he balances everyday life with the challenges of his secret world.</p>
+        </div>
+        <div class="bart">
+            <img src="pics/mon.jpg" alt="Key Event" class="float-right">
+            <p>As Walter and Jesse continue their journey, they face many difficult tasks that test their ability to stay hidden. For example, cashing checks earned from their work becomes a critical security concern, as it could reveal their actions. These events show the risks they take and the careful planning needed to remain unnoticed. The story emphasizes the importance of strategy, timing, and attention to detail, making these key moments both exciting and pivotal to the plot.</p>  
+          </div>
+</body>
+</html>

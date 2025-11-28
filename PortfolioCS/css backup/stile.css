@@ -1,0 +1,55 @@
+nav {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #111;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+nav li {
+  margin: 0 15px;
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+  font-style: italic;
+  font-weight: normal;
+  display: block;
+  padding: 15px;
+}
+h1 {
+  text-align: center;
+  font-size: 2em;
+}
+
+body {
+  color: black;
+}
+
+#Movie {
+    display:none;
+}
+#Short {
+    display:none;
+}
+#Film {
+    display:none;
+}
+#Snack {
+    display:none;
+}
+#chilltime {
+    display:none;
+}
